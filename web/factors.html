@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Factors Animation</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      .scene-wrap { position: relative; height: 340px; overflow: hidden; }
+      .sky { position:absolute; inset:0; background: linear-gradient(#78c4ff, #dff4ff); }
+      .sun { position:absolute; width:96px; height:96px; border-radius:50%; background:#ffd84d; top:40px; left:80px; box-shadow:0 0 40px #ffd84d; transition: all .4s ease; }
+      .cloud { position:absolute; top:60px; left:420px; width:180px; height:80px; background:#f2f6ff; border-radius:60px; box-shadow: 40px 10px 0 0 #f2f6ff, -30px 12px 0 0 #f2f6ff; transition: left .7s ease, opacity .4s ease, transform .7s ease; opacity:.15; }
+      .panel { margin-top:12px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+      .meter { background: rgba(0,0,0,.25); border-radius: 10px; padding: 10px; }
+      .bar { height: 10px; border-radius: 999px; background: linear-gradient(90deg,#34f5c5,#6ec4ff); width: 20%; transition: width .5s ease; }
+      .sun-dim { filter: brightness(.55); box-shadow:0 0 18px #ffc54d; }
+      .solar-board { position:absolute; bottom:28px; left:120px; width:220px; height:90px; transform:skew(-18deg); background:#284b7a; border:4px solid #3b6ea8; }
+      .ground { position:absolute; left:0; right:0; bottom:0; height:80px; background: linear-gradient(#72b26b,#4f944d); }
+      .back-link { margin-top: 12px; display:inline-block; color:#fff; }
+      body.embed .container { width: min(1200px, 100%); margin: 0; }
+      body.embed .card { border-radius: 0; border: 0; background: transparent; padding: 8px; }
+      body.embed .back-link { display: none; }
+      body.embed input[type="range"] { display: none; }
+      body.embed .top-nav { display: none; }
+      @media (max-width: 980px) {
+        .panel { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 640px) {
+        .scene-wrap { height: 280px; }
+        .panel { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="nav-brand">Solar Forecast</div>
+      <div class="nav-links">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link active" href="/factors">Factors</a>
+      </div>
+    </nav>
+    <main class="container">
+      <section class="card">
+        <h1>Sun / Cloud / Weather Impact Animation</h1>
+        <p class="sub">Manual simulation: adjust sunlight, cloud cover, and wind to see model-predicted AC power.</p>
+        <div class="scene-wrap">
+          <div class="sky"></div>
+          <div id="sun" class="sun"></div>
+          <div id="cloud" class="cloud"></div>
+          <div class="solar-board"></div>
+          <div class="ground"></div>
+        </div>
+
+        <div class="panel">
+          <label class="meter">Sunlight Intensity
+            <input id="sunlight" type="range" min="0" max="100" value="80" />
+            <div id="sunlightLabel">80%</div>
+          </label>
+          <label class="meter">Cloud Cover
+            <input id="cloudCover" type="range" min="0" max="100" value="20" />
+            <div id="cloudLabel">20%</div>
+          </label>
+          <label class="meter">Wind (m/s)
+            <input id="wind" type="range" min="0" max="12" value="3" step="0.1" />
+            <div id="windLabel">3.0</div>
+          </label>
+        </div>
+
+        <div class="panel">
+          <div class="meter">Estimated Irradiation
+            <div id="irrText">0.64</div>
+            <div class="bar" id="irrBar"></div>
+          </div>
+          <div class="meter">Estimated Generation
+            <div id="genText">0 kW</div>
+            <div class="bar" id="genBar"></div>
+          </div>
+          <div class="meter">Interpretation
+            <div id="msgText">Strong sun, high generation expected.</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="meter">Ambient Temp<div id="ambText">0.0 C</div></div>
+          <div class="meter">Module Temp<div id="modText">0.0 C</div></div>
+          <div class="meter">Predicted AC Power (Model)<div id="predText">0.0 kW</div></div>
+        </div>
+        <a id="backLink" class="back-link" href="/">Back to Predictor</a>
+      </section>
+    </main>
+    <script src="/static/config.js"></script>
+    <script src="/static/factors.js"></script>
+  </body>
+  </html>
+

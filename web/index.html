@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar + Wind Power Predictor</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <nav class="top-nav">
+      <div class="nav-brand">Solar Forecast</div>
+      <div class="nav-links">
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/factors">Factors</a>
+      </div>
+    </nav>
+    <main class="container">
+      <section class="card">
+        <h1>Solar Power Forecast Studio</h1>
+        <p class="sub">
+          Production model: XGBoost. Live sun-cloud simulation shows how sky conditions change predicted AC power.
+        </p>
+
+        <div class="grid">
+          <label>Datetime <input id="datetime_iso" type="datetime-local" /></label>
+          <label>DC Power <input id="dc_power" type="number" step="0.1" value="9000" /></label>
+          <label>Ambient Temp <input id="ambient_temperature" type="number" step="0.1" value="30" /></label>
+          <label>Module Temp <input id="module_temperature" type="number" step="0.1" value="38" /></label>
+          <label>Irradiation <input id="irradiation" type="number" step="0.01" value="0.65" /></label>
+          <label>Wind Speed 10m <input id="wind_speed_10m" type="number" step="0.1" value="3.5" /></label>
+        </div>
+
+        <div class="actions">
+          <button id="predictBtn">Predict Now</button>
+          <button id="liveBtn">Use My Live Weather</button>
+          <button id="backendBtn">Set Backend URL</button>
+          <a class="btn-link" href="/factors">Sun/Cloud Impact Page</a>
+        </div>
+
+        <div id="result" class="result">Prediction will appear here.</div>
+        <div id="liveStatus" class="curve-info">Live weather autofill: waiting.</div>
+      </section>
+
+      <section class="card">
+        <h2>Automatic Sun/Cloud Performance Animation</h2>
+        <p class="sub">Live model-driven environment dynamics from the factors module.</p>
+        <iframe class="factors-embed" src="/factors?embed=1" title="Sun cloud performance animation"></iframe>
+      </section>
+    </main>
+    <script src="/static/config.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+  </html>
+
